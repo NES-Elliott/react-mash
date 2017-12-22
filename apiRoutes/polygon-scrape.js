@@ -3,28 +3,28 @@ const articleController = require("../controllers/articleController");
 
 module.exports = function(app, axios, cheerio, db) {
   // SCRAPPER
-  app.get("/kotaku", function(req, res) {
-    axios.get("https://kotaku.com/").then(function(response) {
+  app.get("/polygon", function(req, res) {
+    axios.get("https://polygon.com/").then(function(response) {
       var $ = cheerio.load(response.data);
-      $(".postlist__item").each(function(i, element) {
+      $(".c-entry-box--compact--article").each(function(i, element) {
         var result = {};
         result.title = $(this)
-          .children("header")
-          .children(".headline")
+          .children("div")
+          .children("h2")
           .children("a")
           .text();
         result.author = $(this)
-          .children("header")
-          .children(".meta--pe")
-          .children(".author")
+          .children("div")
+          .children("div")
+          .children("span")
           .children("a")
           .text();
-        result.source = "Kotaku";
+        result.source = "Polygon";
         result.link = $(this)
-          .children("header")
-          .children(".headline")
-          .children("a")
-          .attr("href");
+        .children("div")
+        .children("h2")
+        .children("a")
+        .attr("href");
         result.image = "No picture available."
         result.timePublished = "unknown"
         articleController.createArticle(result, res);
