@@ -3,7 +3,7 @@ const articleController = require("../controllers/articleController");
 
 module.exports = function(app, axios, cheerio, db) {
   // SCRAPPER
-  app.get("/gamespot", function(req, res) {
+  app.get("/scrape", function(req, res) {
     axios.get("https://gamespot.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $(".media").each(function(i, element) {
@@ -13,13 +13,22 @@ module.exports = function(app, axios, cheerio, db) {
           .children(".media-body")
           .children(".media-title")
           .text();
-        result.author = "No author."
-        result.source = "Gamespot";
-        result.link = $(this)
+        result.source = "gamespot";
+        result.link = "https://www.gamespot.com" + $(this)
           .children("a")
           .attr("href");
-        result.image = "No picture available."
-        result.timePublished = "unknown"
+        result.image = $(this)
+          .children("a")
+          .children(".media-figure")
+          .children(".media-img")
+          .children("img")
+          .attr("src");
+        result.timePublished = $(this)
+          .children("a")
+          .children(".media-body")
+          .children(".media-meta")
+          .children(".media-date")
+          .attr("datetime");
         articleController.createArticle(result, res);
       });
     });
@@ -28,4 +37,5 @@ module.exports = function(app, axios, cheerio, db) {
   // FIND METHODS
   app.get("/articles", articleController.findAll);
   app.get("/articles/:id", articleController.findByID);
+  app.get("/:source", articleController.findBySource);
 }

@@ -3,7 +3,7 @@ const articleController = require("../controllers/articleController");
 
 module.exports = function(app, axios, cheerio, db) {
   // SCRAPPER
-  app.get("/kotaku", function(req, res) {
+  app.get("/scrape", function(req, res) {
     axios.get("https://kotaku.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $("div .post-wrapper").each(function(i, element) {
@@ -20,15 +20,29 @@ module.exports = function(app, axios, cheerio, db) {
           .children(".meta--pe")
           .children(".author")
           .text();
-        result.source = "Kotaku";
+        result.source = "kotaku";
         result.link = $(this)
           .children("article")
           .children("header")
           .children(".headline")
           .children("a")
           .attr("href");
-        result.image = "No picture available."
-        result.timePublished = "unknown"
+        result.image = $(this)
+          .children("article")
+          .children(".item__content")
+          .children("figure")
+          .children("a")
+          .children(".img-wrapper")
+          .children("picture")
+          .children("source")
+          .attr("srcset");
+        result.timePublished = $(this)
+          .children("article")
+          .children("header")
+          .children(".meta--pe")
+          .children(".meta__container")
+          .children(".meta__time")
+          .attr("datetime");
         articleController.createArticle(result, res);
       });
     });
@@ -37,4 +51,5 @@ module.exports = function(app, axios, cheerio, db) {
   // FIND METHODS
   app.get("/articles", articleController.findAll);
   app.get("/articles/:id", articleController.findByID);
+  app.get("/:source", articleController.findBySource);
 }

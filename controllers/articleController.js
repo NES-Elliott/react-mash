@@ -27,7 +27,18 @@ module.exports = {
         _id: req.params.id
       })
       .then(function(dbArticle) {
-        console.log(dbArticle);
+        res.json(dbArticle);
+      })
+      .catch(function(err) {
+        res.json(err);
+      });
+  },
+  findBySource: function(req, res) {
+    db.Articles
+      .find({
+        source: req.params.source
+      })
+      .then(function(dbArticle) {
         res.json(dbArticle);
       })
       .catch(function(err) {

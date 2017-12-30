@@ -3,7 +3,7 @@ const articleController = require("../controllers/articleController");
 
 module.exports = function(app, axios, cheerio, db) {
   // SCRAPPER
-  app.get("/polygon", function(req, res) {
+  app.get("/scrape", function(req, res) {
     axios.get("https://polygon.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $("div .c-entry-box--compact").each(function(i, element) {
@@ -19,14 +19,21 @@ module.exports = function(app, axios, cheerio, db) {
           .children("span")
           .children("a")
           .text();
-        result.source = "Polygon";
+        result.source = "polygon";
         result.link = $(this)
-        .children("div")
-        .children("h2")
-        .children("a")
-        .attr("href");
-        result.image = "No picture available."
-        result.timePublished = "unknown"
+          .children("a")
+          .attr("href");
+        result.image = $(this)
+          .children("a")
+          .children("div")
+          .children("img")
+          .attr("src");
+        result.timePublished = $(this)
+          .children("div")
+          .children("div")
+          .children("span")
+          .children("time")
+          .text();
         articleController.createArticle(result, res);
       });
     });
@@ -35,4 +42,5 @@ module.exports = function(app, axios, cheerio, db) {
   // FIND METHODS
   app.get("/articles", articleController.findAll);
   app.get("/articles/:id", articleController.findByID);
+  app.get("/:source", articleController.findBySource);
 }
