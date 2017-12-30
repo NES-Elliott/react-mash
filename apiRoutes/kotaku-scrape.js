@@ -6,21 +6,23 @@ module.exports = function(app, axios, cheerio, db) {
   app.get("/kotaku", function(req, res) {
     axios.get("https://kotaku.com/").then(function(response) {
       var $ = cheerio.load(response.data);
-      $(".postlist__item").each(function(i, element) {
+      $("div .post-wrapper").each(function(i, element) {
         var result = {};
         result.title = $(this)
+          .children("article")
           .children("header")
           .children(".headline")
           .children("a")
           .text();
         result.author = $(this)
+          .children("article")
           .children("header")
           .children(".meta--pe")
           .children(".author")
-          .children("a")
           .text();
         result.source = "Kotaku";
         result.link = $(this)
+          .children("article")
           .children("header")
           .children(".headline")
           .children("a")

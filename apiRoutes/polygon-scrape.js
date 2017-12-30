@@ -6,7 +6,7 @@ module.exports = function(app, axios, cheerio, db) {
   app.get("/polygon", function(req, res) {
     axios.get("https://polygon.com/").then(function(response) {
       var $ = cheerio.load(response.data);
-      $(".c-entry-box--compact--article").each(function(i, element) {
+      $("div .c-entry-box--compact").each(function(i, element) {
         var result = {};
         result.title = $(this)
           .children("div")

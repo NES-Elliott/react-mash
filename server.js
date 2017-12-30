@@ -43,6 +43,8 @@ monDB.once("open", function() {
 // ROUTES
 require("./apiRoutes/kotaku-scrape")(app, axios, cheerio, db);
 require("./apiRoutes/polygon-scrape")(app, axios, cheerio, db);
+require("./apiRoutes/pcgamer-scrape")(app, axios, cheerio, db);
+require("./apiRoutes/gamespot-scrape")(app, axios, cheerio, db);
 // -------------------------------------------------------------------------------------------------------------------
 
 // START
