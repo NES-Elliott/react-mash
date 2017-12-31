@@ -10,7 +10,7 @@ var cheerio = require("cheerio");
 // DATABASE & SERVER
 var db = require("./models");
 var dbName = "MashDB";
-var PORT = process.env.PORT || 3000;
+var PORT = process.env.PORT || 3001;
 var app = express();
 // -------------------------------------------------------------------------------------------------------------------
 
@@ -21,16 +21,12 @@ app.use(express.static("client/build"));
 // -------------------------------------------------------------------------------------------------------------------
 
 // MONGOOSE
-mongoose.Promise = Promise;
-if (process.env.MONGODB_URI) {
-  mongoose.connect(process.env.MONGODB_URI, {
+mongoose.connect(
+  process.env.MONGODB_URI || "mongodb://localhost/" + dbName,
+  {
     useMongoClient: true
-  });
-} else {
-  mongoose.connect("mongodb://localhost/" + dbName, {
-    useMongoClient: true
-  });
-};
+  }
+);
 var monDB = mongoose.connection;
 monDB.on("error", function(err) {
   console.log("Mongoose Error: ", err);
