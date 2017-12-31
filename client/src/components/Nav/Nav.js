@@ -9,9 +9,11 @@ const Nav = () =>
           <span className="icon-bar" /> <span className="icon-bar" />
           <span className="icon-bar" />
         </button>
-        <a href="/" className="navbar-brand">
-          React Reading List
-        </a>
+        <a href="/" className="navbar-brand">Mash</a>
+        <ul className="nav navbar-nav">
+          <li><a href="/login">Log In</a></li>
+          <li><a href="/signup">Sign Up</a></li>
+        </ul>
       </div>
     </div>
   </nav>;
