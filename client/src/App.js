@@ -1,5 +1,6 @@
 import React from "react";
-import Books from "./pages/Books";
+import Login from "./pages/Login";
+import Signup from "./pages/Signup";
 import Detail from "./pages/Detail";
 import NoMatch from "./pages/NoMatch";
 import Nav from "./components/Nav";
@@ -10,9 +11,9 @@ const App = () =>
     <div>
       <Nav />
       <Switch>
-        <Route exact path="/" component={Books} />
-        <Route exact path="/books" component={Books} />
-        <Route exact path="/books/:id" component={Detail} />
+        <Route exact path="/" component={Login} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/signup" component={Signup} />
         <Route component={NoMatch} />
       </Switch>
     </div>
