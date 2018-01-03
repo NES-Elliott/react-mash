@@ -4,9 +4,6 @@ module.exports = {
   createArticle: function(result, res) {
     db.Articles
       .create(result)
-      .then(function(dbArticle) {
-        res.send("Scrape Complete");
-      })
       .catch(function(err) {
         res.json(err);
       });
@@ -44,5 +41,12 @@ module.exports = {
       .catch(function(err) {
         res.json(err);
       });
+  },
+  removeAllArticles: function(req, res) {
+    db.Articles
+      .remove({})
+      .catch(function(err) {
+        console.log(err);
+      })
   }
 };

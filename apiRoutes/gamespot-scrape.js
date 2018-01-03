@@ -1,9 +1,8 @@
 // ARTICLE CONTROLLER
 const articleController = require("../controllers/articleController");
 
-module.exports = function(app, axios, cheerio, db) {
-  // SCRAPPER
-  app.get("/scrape", function(req, res) {
+module.exports = {
+  scrape: function(axios, cheerio, res) {
     axios.get("https://gamespot.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $(".media").each(function(i, element) {
@@ -32,10 +31,5 @@ module.exports = function(app, axios, cheerio, db) {
         articleController.createArticle(result, res);
       });
     });
-  });
-
-  // FIND METHODS
-  app.get("/articles", articleController.findAll);
-  app.get("/articles/:id", articleController.findByID);
-  app.get("/:source", articleController.findBySource);
-}
+  }
+};
