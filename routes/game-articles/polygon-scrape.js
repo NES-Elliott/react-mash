@@ -1,8 +1,5 @@
-// ARTICLE CONTROLLER
-const articleController = require("../controllers/articleController");
-
 module.exports = {
-  scrape: function(axios, cheerio, res) {
+  scrape: function(axios, cheerio, res, articleController) {
     axios.get("https://polygon.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $("div .c-entry-box--compact").each(function(i, element) {

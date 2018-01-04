@@ -1,8 +1,5 @@
-// ARTICLE CONTROLLER
-const articleController = require("../controllers/articleController");
-
 module.exports = {
-  scrape: function(axios, cheerio, res) {
+  scrape: function(axios, cheerio, res, articleController) {
     axios.get("https://gamespot.com/").then(function(response) {
       var $ = cheerio.load(response.data);
       $(".media").each(function(i, element) {
