@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import API from "../../utils/API";
+// import API from "../../utils/API";
 import { Link, Redirect } from "react-router-dom";
 
 class LoginForm extends Component {
@@ -28,9 +28,9 @@ class LoginForm extends Component {
     console.log(this.state.password)
     console.log(this.props)
     this.props._login(this.state.username, this.state.password)
-    this.setState({
-      redirectTo: "/"
-    })
+    // this.setState({
+    //   redirectTo: "/"
+    // })
   };
 
   render() {
@@ -41,14 +41,16 @@ class LoginForm extends Component {
         <div>
           <h1>Welcome to Mash</h1>
           <h4>Please Log-In</h4>
-          <form>
+          <form method="post">
             <input
+              type="text"
               name="username"
               value={this.state.username}
               onChange={this.handleInputChange}
               placeholder="Username"
             />
             <input
+              type="password"
               name="password"
               value={this.state.password}
               onChange={this.handleInputChange}
@@ -59,6 +61,7 @@ class LoginForm extends Component {
               <label for="remember-me">Remember me on this device</label>
             </div>
             <button
+              type="submit"
               onClick={this.handleFormSubmit}
               disabled={!this.state.username && this.state.password}
             >Log In</button>

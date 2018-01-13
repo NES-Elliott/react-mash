@@ -1,17 +1,7 @@
-const userController = require("../../controllers/userController")
-const User = require('../../models/Users')
-const passport = require('../../passport')
 const express = require('express')
 const router = express.Router()
+const passport = require("passport")
 
-router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
-router.get(
-	'/google/callback',
-	passport.authenticate('google', {
-		successRedirect: '/',
-		failureRedirect: '/login'
-	})
-)
 
 router.get('/user', (req, res, next) => {
 	console.log('===== user!!======')
@@ -23,54 +13,70 @@ router.get('/user', (req, res, next) => {
 	}
 })
 
-router.post(
-	'/login',
-	function(req, res, next) {
-		console.log(req.body)
-		console.log('================')
-		next()
-	},
-	passport.authenticate('local'),
-	(req, res) => {
-		console.log('POST to /login')
-		const user = JSON.parse(JSON.stringify(req.user)) // hack
-		const cleanUser = Object.assign({}, user)
-		if (cleanUser.local) {
-			console.log(`Deleting ${cleanUser.local.password}`)
-			delete cleanUser.local.password
-		}
-		res.json({ user: cleanUser })
-	}
-)
+router.post("/login", (req, res, next) => {
+  return passport.authenticate("local-login", (err, token, userData) => {
+    if (err) {
+      if (err.name === "IncorrectCredentialsError") {
+        return res.status(400).json({
+          success: false,
+          message: err.message
+        })
 
-router.post('/logout', (req, res) => {
-	if (req.user) {
-		req.session.destroy()
-		res.clearCookie('connect.sid') // clean up!
-		return res.json({ msg: 'logging you out' })
-	} else {
-		return res.json({ msg: 'no user to log out!' })
-	}
+        return res.status(400).json({
+          success: false,
+          message: "Could not process the form."
+        })
+      }
+    }
+
+    return res.json({
+      success: true,
+      message: "You have successfully logged in!",
+      token,
+      user: userData
+    })
+  })
 })
 
-router.post('/signup', (req, res) => {
-	const { username, password } = req.body
-	// ADD VALIDATION
-	User.findOne({ 'local.username': username }, (err, userMatch) => {
-		if (userMatch) {
-			return res.json({
-				error: `Sorry, already a user with the username: ${username}`
-			})
-		}
-		const newUser = new User({
-			'local.username': username,
-			'local.password': password
-		})
-		newUser.save((err, savedUser) => {
-			if (err) return res.json(err)
-			return res.json(savedUser)
-		})
-	})
+router.post("/signup", (req, res, next) => {
+  return passport.authenticate("local-signup", (err) => {
+    if (err) {
+      if (err.name === "MongoError" && err.code === 11000) {
+        return res.status(409).json({
+          success: false,
+          message: "Check the form for errors.",
+          errors: {
+            email: "This email is already taken."
+          }
+        })
+      }
+
+      return res.status(400).json({
+        success: false,
+        message: "Could not process the form."
+      })
+    }
+
+    return res.status(200).json({
+      success: true,
+      message: "You have successfully signed up! Now you should be able to log in."
+    })
+  })
 })
+
+// router.post('/logout', (req, res) => {
+// 	if (req.user) {
+// 		req.session.destroy()
+// 		res.clearCookie('connect.sid') // clean up!
+// 		return res.json({ msg: 'logging you out' })
+// 	} else {
+// 		return res.json({ msg: 'no user to log out!' })
+// 	}
+// })
+
+function isLoggedIn(req, res, next) {
+  if (req.isAuthenticated()) return next()
+  res.redirect("/")
+}
 
 module.exports = router

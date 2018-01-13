@@ -23,11 +23,10 @@ router.get("/scrape", function(req, res) {
 })
 
 // FIND METHODS
-router.get("/articles", articleController.findAll);
-router.get("/articles/:id", articleController.findByID);
-router.get("/:source", articleController.findBySource);
-
-// REMOVE METHODS
-router.get("/removearticles", articleController.removeAllArticles);
+router.get("/", articleController.findAll)
+router.get("/:id", articleController.findByID)
+router.get("/:source", articleController.findBySource)
+router.delete("/removearticles", articleController.removeAllArticles)
+router.delete("/remove/:source", articleController.removeBySource)
 
 module.exports = router;

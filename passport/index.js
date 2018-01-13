@@ -1,31 +1,29 @@
-const passport = require('passport')
-const LocalStrategy = require('./localStrategy')
-const GoogleStratgey = require('./googleStrategy')
 const User = require('../models/Users')
+const LocalSignup = require('./localSignup')
+const LocalLogin = require('./localLogin')
 
-passport.serializeUser((user, done) => {
-	console.log('=== serialize ... called ===')
-	console.log(user) // the whole raw user object!
-	console.log('---------')
-	done(null, { _id: user._id })
-})
+module.exports = function(passport) {
+    passport.serializeUser(function(user, done) {
+      console.log('=== serialize ... called ===')
+    	console.log(user)
+    	console.log('---------')
+      done(null, { _id: user._id })
+    })
 
-passport.deserializeUser((id, done) => {
-	console.log('DEserialize ... called')
-	User.findOne(
-		{ _id: id },
-		'firstName lastName photos local.username',
-		(err, user) => {
-			console.log('======= DESERILAIZE USER CALLED ======')
-			console.log(user)
-			console.log('--------------')
-			done(null, user)
-		}
-	)
-})
+    passport.deserializeUser(function(id, done) {
+      console.log('DEserialize ... called')
+      User.findOne(
+        { _id: id },
+        function(err, user) {
+        	console.log('======= DESERILAIZE USER CALLED ======')
+          console.log(user)
+          console.log('--------------')
+          done(err, done)
+        }
+      )
+    })
 
-// ==== Register Strategies ====
-passport.use(LocalStrategy)
-passport.use(GoogleStratgey)
-
-module.exports = passport
+    passport.use("local-signup", LocalSignup)
+    passport.use("local-login", LocalLogin)
+    // passport.use(GoogleStrategy)
+}
