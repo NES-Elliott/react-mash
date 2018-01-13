@@ -1,0 +1,62 @@
+{
+  "name": "mash-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "server": "node server.js",
+    "client": "node script/start-client.js",
+    "start": "concurrently \"nodemon server.js\" \"npm run client\"",
+    "build": "node scripts/build.js",
+    "dev": "nodemon --use_strict server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "installDeps": "yarn && cd client && yarn",
+    "bundle": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/NES-Elliott/react-mash.git"
+  },
+  "author": "Nathaniel Spry",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/NES-Elliott/react-mash/issues"
+  },
+  "homepage": "https://github.com/NES-Elliott/react-mash#readme",
+  "devDependencies": {
+    "concurrently": "^3.5.0",
+    "nodemon": "^1.11.0",
+
+    "babel-core": "^6.24.1",
+    "babel-loader": "^7.0.0",
+    "babel-plugin-transform-es2015-destructuring": "^6.23.0",
+    "babel-plugin-transform-object-rest-spread": "^6.23.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "webpack": "^2.6.1"
+  },
+  "dependencies": {
+    "axios": "^0.17.1",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.2",
+    "cheerio": "^1.0.0-rc.2",
+    "express": "^4.16.2",
+    "jsonwebtoken": "^7.4.1",
+    "mongoose": "^4.13.6",
+    "morgan": "^1.9.0",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "passport-google-oauth20": "^1.0.0",
+    "passport-local": "^1.0.0",
+    "request": "^2.83.0",
+    "validator": "^7.0.0",
+
+    "material-ui": "^0.18.1",
+    "prop-types": "^15.5.10",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-router": "^4.1.1",
+    "react-router-dom": "^4.1.1",
+    "react-tap-event-plugin": "^2.0.1"
+  }
+}
