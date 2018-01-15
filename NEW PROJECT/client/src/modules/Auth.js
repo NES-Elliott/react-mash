@@ -1,41 +1,19 @@
-class Auth {
+import axios from "axios";
 
-  /**
-   * Authenticate a user. Save a token string in Local Storage
-   *
-   * @param {string} token
-   */
-  static authenticateUser(token) {
-    localStorage.setItem('token', token);
+export default {
+  // Login
+  loginUser: function(verify) {
+    return axios.post("/auth/login", verify)
+  },
+  // Signup
+  signupUser: function(userData) {
+    return axios.post("http://localhost:3000/auth/signup/", userData)
+    .then(response => {
+      console.log(response)
+    })
+  },
+  // Logout
+  logoutUser: function(source) {
+    return axios.get("http://localhost:3000/api/articles/" + source);
   }
-
-  /**
-   * Check if a user is authenticated - check if a token is saved in Local Storage
-   *
-   * @returns {boolean}
-   */
-  static isUserAuthenticated() {
-    return localStorage.getItem('token') !== null;
-  }
-
-  /**
-   * Deauthenticate a user. Remove a token from Local Storage.
-   *
-   */
-  static deauthenticateUser() {
-    localStorage.removeItem('token');
-  }
-
-  /**
-   * Get a token value.
-   *
-   * @returns {string}
-   */
-
-  static getToken() {
-    return localStorage.getItem('token');
-  }
-
-}
-
-export default Auth;
+};
