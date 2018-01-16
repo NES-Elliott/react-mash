@@ -1,4 +1,0 @@
-{
-  "dbUri": "mongodb://localhost/MashDB",
-  "jwtSecret": "a secret phrase!!"
-}
