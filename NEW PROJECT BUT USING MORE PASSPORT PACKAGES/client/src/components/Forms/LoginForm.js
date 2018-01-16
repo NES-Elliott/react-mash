@@ -4,6 +4,12 @@ import Auth from "../../modules/Auth"
 
 // HANDLES FORM DATA POST TO DATABASE AND VERIFIES
 
+/*
+TO DO
+pass user data to LoginPage.js
+pass success or fail to LoginPage.js
+*/
+
 class LoginForm extends Component {
   state = {
     username: "",
@@ -17,13 +23,19 @@ class LoginForm extends Component {
 
   handleFormSubmit = event => {
     event.preventDefault()
-    Auth.login({ username: this.state.username, password: this.state.password })
+    Auth.loginUser({ username: this.state.username, password: this.state.password })
     .then(res => {
       console.log(res)
-      this.setState({
-        username: "",
-        password: ""
-      })
+      if (res.status === 200) {
+        console.log("User is now logged in.")
+        this.setState({
+          username: "",
+          password: ""
+        })
+        this.props.loginStatus(true, { username: res.data.username, id: res.data._id})
+      } else {
+        console.log(false) // This will be sent to loginpage to display an error message
+      }
     })
     .catch(err => console.log(err))
   }
@@ -52,7 +64,7 @@ class LoginForm extends Component {
           </div>
           <div>
             <input id="remember-me" type="checkbox" />
-            <label for="remember-me">Remember me on this device</label>
+            <label htmlFor="remember-me">Remember me on this device</label>
           </div>
           <button
             type="submit"
@@ -61,8 +73,7 @@ class LoginForm extends Component {
         </form>
 
         <a><h4>Forgot your password?</h4></a>
-        <a><h4>First time here?</h4></a>
-        <a><p>If you would not like to make an account at this time, please click here</p></a>
+        <Link to="/signup">First time here?</Link>
     </div>
     )
   }

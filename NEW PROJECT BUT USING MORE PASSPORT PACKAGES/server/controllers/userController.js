@@ -1,4 +1,5 @@
 const db = require("../models")
+const User = require('../models/user')
 
 module.exports = {
   // FIND ALL USERS
@@ -12,7 +13,7 @@ module.exports = {
   // FIND USER BY ID
   findById: function(req, res) {
     db.User
-      .findOne(req.params.id)
+      .findById(req.params.id)
       .then(dbModel => res.json(dbModel))
       .catch(err => res.status(422).json(err))
   },
@@ -44,7 +45,7 @@ module.exports = {
         console.log("error while user resister!", err)
         return next(err)
       }
-      console.log("user registered")
+      console.log("user registered.")
       res.json("it worked")
     })
   }

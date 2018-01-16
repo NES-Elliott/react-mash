@@ -5,15 +5,18 @@ export default {
   loginUser: function(verify) {
     return axios.post("/auth/login", verify)
   },
+  loginCheck: function() {
+    return axios.get("/auth/login")
+  },
   // Signup
   signupUser: function(userData) {
-    return axios.post("http://localhost:3000/auth/signup/", userData)
+    return axios.post("/auth/signup/", userData)
     .then(response => {
       console.log(response)
     })
   },
   // Logout
-  logoutUser: function(source) {
-    return axios.get("http://localhost:3000/api/articles/" + source);
+  logoutUser: function() {
+    return axios.get("/auth/logout/");
   }
 };

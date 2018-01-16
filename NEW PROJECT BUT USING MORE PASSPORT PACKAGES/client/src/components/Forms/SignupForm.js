@@ -4,7 +4,6 @@ import Auth from "../../modules/Auth"
 // HANDLES FORM DATA POST TO DATABASE
 
 class SignupForm extends Component {
-
   state = {
     username: "",
     password: ""

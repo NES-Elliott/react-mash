@@ -1,43 +1,89 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Link, Redirect, Switch } from "react-router-dom";
-import axios from "axios"
+import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 // CONTAINERS
 import HomePage from "./containers/HomePage"
 import LoginPage from "./containers/LoginPage"
 import SignupPage from "./containers/SignupPage"
 // import ProfilePage from "./containers/ProfilePage"
 // COMPONENTS
-import Nav from "./components/Nav";
 import NoMatch from "./components/NoMatch";
 // MODULES
-// import Auth from "./modules/Auth"
+import Auth from "./modules/Auth"
 // -----------------------------
 
-// HANDLES OUR LOGGED IN AND LOGGED OUT STATE
-
 class App extends Component {
-  // constructor() {
-  //   super()
-  //   console.log(this)
-  //   this.state = {
-  //     loggedIn: false,
-  //     user: null
-  //   }
-  // }
+  constructor() {
+    super()
+    this.logout = this.logout.bind(this)
+  }
   state = {
     loggedIn: false,
     user: null
   }
 
+  componentDidMount() {
+    Auth.loginCheck()
+      .then(res => {
+        if (res) {
+          console.log(res)
+          this.setState({
+            loggedIn: true,
+            user: {
+              username: res.data.username,
+              id: res.data.id
+            }
+          })
+        }
+      })
+  }
+
+  loginStatus = (loggedIn, user) => {
+    this.setState({
+      loggedIn,
+      user
+    })
+  }
+
+  logout(event) {
+    event.preventDefault()
+    console.log("Logging User out.")
+    Auth.logoutUser()
+      .then(response => {
+        console.log(response.data)
+        if (response.status === 200) {
+          console.log("User is logged out.")
+          this.setState({
+            loggedIn: false,
+            user: null
+          })
+        }
+      })
+  }
 
   render() {
     return (
       <Router>
         <div>
-          <Nav />
+          <nav className="navbar navbar-inverse navbar-top">
+            <div className="container-fluid">
+              <div className="navbar-header">
+                <button type="button" className="collapsed navbar-toggle">
+                  <span className="sr-only">Toggle navigation</span>
+                  <span className="icon-bar" /> <span className="icon-bar" />
+                  <span className="icon-bar" />
+                </button>
+                <a href="/" className="navbar-brand">Mash</a>
+                <ul className="nav navbar-nav">
+                  <li><a href="/login">Log In</a></li>
+                  <li><a href="/signup">Sign Up</a></li>
+                  <li><a onClick={this.logout}>Log Out</a></li>
+                </ul>
+              </div>
+            </div>
+          </nav>
           <Switch>
             <Route exact path="/" render={() => <HomePage user={this.state.user} />} />
-            <Route exact path="/login" component={LoginPage} toggleAuthenticateStatus={() => this.toggleAuthenticateStatus()} />
+            <Route exact path="/login" render={() => <LoginPage loggedIn={this.state.loggedIn} loginStatus={this.loginStatus} />} />
             <Route exact path="/signup" component={SignupPage} />
             <Route component={NoMatch} />
           </Switch>
@@ -49,104 +95,5 @@ class App extends Component {
 
 export default App;
 
-
-// const PrivateRoute = ({ component: Component, ...rest }) => (
-//   <Route {...rest} render={props => (
-//     Auth.isUserAuthenticated() ? (
-//       <Component {...props} {...rest} />
-//     ) : (
-//       <Redirect to={{
-//         pathname: "/",
-//         state: { from: props.location }
-//       }} />
-//     )
-//   )} />
-// )
-
-// const LoggedOutRoute = ({ component: Component, ...rest }) => (
-//   <Route {...rest} render={props => (
-//     Auth.isUserAuthenticated() ? (
-//       <Redirect to={{
-//         pathname: "/",
-//         state: { from: props.location }
-//       }} />
-//     ) : (
-//       <Component {...props} {...rest} />
-//     )
-//   )} />
-// )
-
-// const PropsRoute = ({ component: Component, ...rest }) => (
-//   <Route {...rest} render={props => (
-//     <Component {...props} {...rest} />
-//   )} />
-// )
-
-// class App extends Component {
-//   constructor(props) {
-//     super(props)
-//     this.state = {
-//       loggedIn: false,
-//       user: null
-//     }
-//     this._login = this._login.bind(this)
-//     this._logout = this._login.bind(this)
-//   }
-
-//   componentDidMount() {
-//     this.toggleAuthenticateStatus()
-//     // axios
-//     //   .get("http://localhost:3000/auth/user")
-//     //   .then(response => {
-//     //     console.log(response.data)
-//     //     if(!!response.data.user) {
-//     //       console.log("There is a user.")
-//     //       this.setState({
-//     //         loggedIn: true,
-//     //         user: response.data.user
-//     //       })
-//     //     } else {
-//     //       this.setState({
-//     //         loggedIn: false,
-//     //         user: null
-//     //       })
-//     //     }
-//     //   })
-//   }
-
-//   toggleAuthenticateStatus() {
-//     this.setState({ loggedIn: Auth.isUserAuthenticated() })
-//   }
-
-//   _login(username, password) {
-//     axios
-//       .post("http://localhost:3000/auth/login", {
-//         username,
-//         password
-//       })
-//       .then(response => {
-//         console.log(response)
-//         if (response.status === 200) {
-//           this.setState({
-//             loggedIn: true,
-//             user: response.data.user
-//           })
-//         }
-//       })
-//   }
-
-//   _logout(event) {
-//     event.preventDefault()
-//     console.log("Logging out")
-//     axios
-//       .post("http://localhost:3000/auth/logout")
-//       .then(response => {
-//         console.log(response.data)
-//         if (response.status === 200) {
-//           this.setState({
-//             loggedIn: false,
-//             user: null
-//           })
-//         }
-//       })
-//   }
+// IF LOGGED IN, only display LOGOUT and PROFILE button in navbar,
+// IF LOGGED OUT, only display LOGIN and SIGNUP button in navbar
