@@ -1,11 +1,13 @@
 import React, { Component } from "react";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
 // CONTAINERS
 import HomePage from "./containers/HomePage"
 import LoginPage from "./containers/LoginPage"
 import SignupPage from "./containers/SignupPage"
-// import ProfilePage from "./containers/ProfilePage"
+import ProfilePage from "./containers/ProfilePage"
+import MarketPage from "./containers/MarketPage"
 // COMPONENTS
+import Nav from "./components/BSComponents/Nav/Nav"
 import NoMatch from "./components/NoMatch";
 // MODULES
 import Auth from "./modules/Auth"
@@ -18,13 +20,14 @@ class App extends Component {
   }
   state = {
     loggedIn: false,
+    loggedOut: false,
     user: null
   }
 
   componentDidMount() {
     Auth.loginCheck()
       .then(res => {
-        if (res) {
+        if (res.data) {
           console.log(res)
           this.setState({
             loggedIn: true,
@@ -37,11 +40,10 @@ class App extends Component {
       })
   }
 
-  loginStatus = (loggedIn, user) => {
-    this.setState({
-      loggedIn,
-      user
-    })
+  backToHome = () => {
+    return (
+      <Redirect to="/" />
+    )
   }
 
   logout(event) {
@@ -54,39 +56,49 @@ class App extends Component {
           console.log("User is logged out.")
           this.setState({
             loggedIn: false,
+            loggedOut: true,
             user: null
           })
         }
       })
   }
 
+  loginStatus = (loggedIn, user) => {
+    this.setState({
+      loggedIn,
+      user
+    })
+  }
+
+  availableRoutes = () => {
+    if (this.state.loggedIn) {
+      return (
+        <Switch>
+          <Route exact path="/" render={() => <HomePage loggedIn={this.state.loggedIn} user={this.state.user} />} />
+          <Route exact path="/market" render={() => <MarketPage loggedIn={this.state.loggedIn} user={this.state.user} />} />
+          <Route exact path="/profile" render={() => <ProfilePage user={this.state.user} />} />
+          <Route component={NoMatch} />
+        </Switch>
+      )
+    } else {
+      return (
+        <Switch>
+          <Route exact path="/" render={() => <HomePage loggedIn={this.state.loggedIn} user={this.state.user} />} />
+          <Route exact path="/market" render={() => <MarketPage loggedIn={this.state.loggedIn} />} />
+          <Route exact path="/login" render={() => <LoginPage loggedIn={this.state.loggedIn} loginStatus={this.loginStatus} />} />
+          <Route exact path="/signup" component={SignupPage} />
+          <Route component={NoMatch} />
+        </Switch>
+      )
+    }
+  }
+
   render() {
     return (
       <Router>
         <div>
-          <nav className="navbar navbar-inverse navbar-top">
-            <div className="container-fluid">
-              <div className="navbar-header">
-                <button type="button" className="collapsed navbar-toggle">
-                  <span className="sr-only">Toggle navigation</span>
-                  <span className="icon-bar" /> <span className="icon-bar" />
-                  <span className="icon-bar" />
-                </button>
-                <a href="/" className="navbar-brand">Mash</a>
-                <ul className="nav navbar-nav">
-                  <li><a href="/login">Log In</a></li>
-                  <li><a href="/signup">Sign Up</a></li>
-                  <li><a onClick={this.logout}>Log Out</a></li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-          <Switch>
-            <Route exact path="/" render={() => <HomePage user={this.state.user} />} />
-            <Route exact path="/login" render={() => <LoginPage loggedIn={this.state.loggedIn} loginStatus={this.loginStatus} />} />
-            <Route exact path="/signup" component={SignupPage} />
-            <Route component={NoMatch} />
-          </Switch>
+          <Nav loggedIn={this.state.loggedIn} logout={this.logout} />
+          {this.availableRoutes()}
         </div>
       </Router>
     );
@@ -94,6 +106,3 @@ class App extends Component {
 }
 
 export default App;
-
-// IF LOGGED IN, only display LOGOUT and PROFILE button in navbar,
-// IF LOGGED OUT, only display LOGIN and SIGNUP button in navbar

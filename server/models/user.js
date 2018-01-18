@@ -5,9 +5,13 @@ const passportLocalMongoose = require('passport-local-mongoose');
 const User = new Schema({
   username: String,
   password: String,
-  savedArticles: Array
+  email_1: { type: String, require: false, unique: false },
+  savedArticles: Array,
+  postedListings: Array
 });
 
-User.plugin(passportLocalMongoose);
+User.plugin(passportLocalMongoose, {
+  usernameUnique: true
+});
 
 module.exports = mongoose.model('User', User);

@@ -53,6 +53,7 @@ app.use(express.static("client/build"))
 // ROUTES
 app.use("/auth", require("./server/routes/auth"))
 app.use("/articles", require("./server/routes/game-articles/index"))
+app.use("/market", require("./server/routes/market"))
 // START
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`)

@@ -10,7 +10,7 @@ const pcgamerRoute = require("./pcgamer-scrape");
 const polygonRoute = require("./polygon-scrape");
 
 // SCRAPE
-router.get("/scrape", (req, res) => {
+router.get("/scrape/new", (req, res) => {
   articleController.removeAllArticles()
   gamespotRoute.scrape(require("axios"), require("cheerio"), res, articleController);
   kotakuRoute.scrape(require("axios"), require("cheerio"), res, articleController);
@@ -22,7 +22,7 @@ router.get("/scrape", (req, res) => {
 // FIND METHODS
 router.get("/", articleController.findAll)
 router.get("/:id", articleController.findByID)
-router.get("/:source", articleController.findBySource)
+router.get("/source/:source",articleController.findBySource)
 router.delete("/removearticles", articleController.removeAllArticles)
 router.delete("/remove/:source", articleController.removeBySource)
 

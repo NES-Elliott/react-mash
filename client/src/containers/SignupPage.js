@@ -5,7 +5,9 @@ class SignupPage extends Component {
 
   render() {
     return (
+      <div>
       <SignupForm />
+      </div>
     )
   }
 

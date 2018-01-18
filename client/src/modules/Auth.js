@@ -5,6 +5,7 @@ export default {
   loginUser: function(verify) {
     return axios.post("/auth/login", verify)
   },
+  // Check if user is logged in
   loginCheck: function() {
     return axios.get("/auth/login")
   },

@@ -71,8 +71,6 @@ class LoginForm extends Component {
             onClick={this.handleFormSubmit}
           >Log In</button>
         </form>
-
-        <a><h4>Forgot your password?</h4></a>
         <Link to="/signup">First time here?</Link>
     </div>
     )
