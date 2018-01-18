@@ -29,7 +29,7 @@ class ListingForm extends Component {
     API.createNewListing({
       name: this.state.productName,
       platform: this.state.platform,
-      genre: this.state.platform,
+      genre: this.state.genre,
       price: this.state.price,
       description: this.state.description,
       image: "",
@@ -52,8 +52,8 @@ class ListingForm extends Component {
   render() {
     return (
       <div>
-        <button type="button" className="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-          Create a Listing
+        <button type="button" className="btn btn-warning" data-toggle="modal" data-target="#exampleModal">
+          <span className="basic-text">Create a Listing</span>
         </button>
         <div className="modal fade" id="exampleModal" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div className="modal-dialog" role="document">
@@ -135,7 +135,7 @@ class ListingForm extends Component {
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" className="btn btn-primary" onClick={this.handleFormSubmit}>Create</button>
+                <button type="submit" className="btn btn-warning" onClick={this.handleFormSubmit}>Create</button>
               </div>
             </div>
           </div>

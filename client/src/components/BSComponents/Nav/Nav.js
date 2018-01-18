@@ -37,8 +37,8 @@ class Nav extends Component {
 
   render() {
     return (
-      <nav className="navbar navbar-expand-lg navbar-light bg-light">
-        <Link className="navbar-brand" to="/">Mash</Link>
+      <nav className="navbar navbar-expand-lg navbar-dark nav-bg-color">
+        <Link className="navbar-brand mx-auto" to="/">Mash</Link>
         <button
           className="navbar-toggler"
           type="button"

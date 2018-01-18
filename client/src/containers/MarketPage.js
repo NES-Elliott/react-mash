@@ -31,10 +31,10 @@ class MarketPage extends Component {
 
   render() {
     return (
-      <div>
-        <h1>Marketplace</h1>
+      <div className="container">
+        <h1 className="section-header">Marketplace</h1>
         {this.canCreateListing()}
-        <h3>Listings</h3>
+        <h3 className="section-subheader">Listings</h3>
         {
           this.state.listings.map((listing, x) => {
             x+1

@@ -5,7 +5,7 @@ export const Card = ({ title, author, source, link, timePublished, id, user, log
   const renderIfLoggedIn = () => {
     if (loggedIn) {
       return (
-        <a onClick={save} className="btn btn-light" role="button">Save to Account</a>
+        <a onClick={save} className="btn btn-warning" role="button"><span className="basic-text">Save to Account</span></a>
       )
     }
   }
@@ -29,8 +29,8 @@ export const Card = ({ title, author, source, link, timePublished, id, user, log
   return (
     <div className="card">
       <div className="card-body">
-        <a href={link}><h3 className="card-title"> {title} </h3></a>
-        <h6 className="card-subtitle mb-2 text-muted">by {author} from {source}</h6>
+        <a className="article-header" href={link}><h3> {title} </h3></a>
+        <h6 className="section-subheader">by {author} from {source}</h6>
         <p className="text-muted">{timePublished}</p>
         {renderIfLoggedIn()}
       </div>

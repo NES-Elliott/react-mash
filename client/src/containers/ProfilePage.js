@@ -25,9 +25,9 @@ class ProfilePage extends Component {
 
   render() {
     return (
-      <div>
-        <h1>{this.state.username}'s Profile</h1>
-        <h3>Your Saved Articles</h3>
+      <div className="container">
+        <h1 className="section-header">{this.state.username}'s Profile</h1>
+        <h3 className="section-subheader">Your Saved Articles</h3>
         {
           this.state.savedArticles.map((article, x) => {
             if (article.title) {

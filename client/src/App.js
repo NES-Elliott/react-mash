@@ -12,6 +12,7 @@ import NoMatch from "./components/NoMatch";
 // MODULES
 import Auth from "./modules/Auth"
 // -----------------------------
+import "./containers/CSS/App.css"
 
 class App extends Component {
   constructor() {

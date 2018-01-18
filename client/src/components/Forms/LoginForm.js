@@ -43,35 +43,46 @@ class LoginForm extends Component {
   render() {
     return (
       <div className="container">
-        <form>
-          <h2>Login</h2>
+        <div className="row">
+          <form>
+            <h2 className="section-header">Login</h2>
 
-          <div>
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              placeholder="Username"
-            />
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              placeholder="Password"
-            />
-          </div>
-          <div>
-            <input id="remember-me" type="checkbox" />
-            <label htmlFor="remember-me">Remember me on this device</label>
-          </div>
-          <button
-            type="submit"
-            onClick={this.handleFormSubmit}
-          >Log In</button>
-        </form>
-        <Link to="/signup">First time here?</Link>
+            <div className="form-group">
+              <label htmlFor="login-username" className="section-subheader">Username</label>
+              <input
+                className="form-control"
+                id="login-username"
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="login-password" className="section-subheader">Password</label>
+              <input
+                className="form-control"
+                id="login-password"
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div>
+              <input id="remember-me" type="checkbox" />
+              <label htmlFor="remember-me" className="basic-text">Remember me on this device</label>
+            </div>
+            <div>
+              <Link to="/signup" className="mash-link">First time here?</Link>
+            </div>
+            <button
+              className="btn btn-outline-light"
+              type="submit"
+              onClick={this.handleFormSubmit}
+            ><span className="reg-button">Log In</span></button>
+          </form>
+        </div>
     </div>
     )
   }

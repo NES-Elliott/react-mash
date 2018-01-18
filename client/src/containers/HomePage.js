@@ -8,7 +8,7 @@ class HomePage extends Component {
 
   render() {
     return (
-      <div className="container">
+      <div className="container page">
         <div className="row">
           <div className="col-12">
             <Carousel loggedIn={this.props.loggedIn} user={this.props.user} />

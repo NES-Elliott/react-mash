@@ -74,8 +74,8 @@ class ArticleComp extends Component {
   render() {
     return (
       <div>
-        <h2>Latest News</h2>
-        <p className="text-muted">This list will refresh every 24 hours.</p>
+        <h2 className="section-header">Latest News</h2>
+        <p className="section-subheader">This list will refresh every 24 hours.</p>
         <div className="btn-group" role="group" aria-label="Source Group">
           <button type="button" className="btn btn-secondary" onClick={() => this.handleSourceValue("all")}>All</button>
           <button type="button" className="btn btn-secondary" onClick={() => this.handleSourceValue("gamespot")}>Gamespot</button>

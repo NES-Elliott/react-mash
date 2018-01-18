@@ -5,10 +5,10 @@ export const ArticleCard = ({ title, author, source, link, timePublished }) => {
   return (
     <div className="card">
       <div className="card-body">
-        <a href={link}><h3 className="card-title"> {title} </h3></a>
-        <h6 className="card-subtitle mb-2 text-muted">by {author} from {source}</h6>
+        <a href={link}><h3 className="article-header"> {title} </h3></a>
+        <h6 className="section-subheader">by {author} from {source}</h6>
         <p className="text-muted">{timePublished}</p>
-        <a className="btn btn-light" role="button">Delete this Article</a>
+        <a className="btn btn-warning" role="button"><span className="basic-text">Delete this Article</span></a>
       </div>
     </div>
   )

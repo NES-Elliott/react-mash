@@ -17,7 +17,7 @@ export const Carousel = ({ loggedIn, user }) => {
     }
   }
   return (
-    <div className="carouselSize">
+    <div className="jumbotron">
       <div id="carouselExampleIndicators" className="carousel slide" data-ride="carousel">
         <ol className="carousel-indicators">
           <li data-target="#carouselExampleIndicators" data-slide-to="0" className="active"></li>

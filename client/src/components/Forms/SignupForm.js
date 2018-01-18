@@ -30,34 +30,43 @@ class SignupForm extends Component {
   render() {
     return (
       <div className="container">
-        <form>
-          <h2>Sign Up</h2>
+        <div className="row">
+          <form>
+            <h2 className="section-header">Sign Up</h2>
 
-          <div>
-            <input
-              type="text"
-              name="username"
-              value={this.state.username}
-              onChange={this.handleInputChange}
-              placeholder="Username"
-            />
-            <input
-              type="password"
-              name="password"
-              value={this.state.password}
-              onChange={this.handleInputChange}
-              placeholder="Password"
-          />
+            <div className="form-group">
+              <label htmlFor="signup-username" className="section-subheader">Username</label>
+              <input
+                className="form-control"
+                id="signup-username"
+                type="text"
+                name="username"
+                value={this.state.username}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="signup-password" className="section-subheader">Password</label>
+              <input
+                className="form-control"
+                id="signup-password"
+                type="password"
+                name="password"
+                value={this.state.password}
+                onChange={this.handleInputChange}
+              />
+            </div>
+            <div>
+              <button
+                className="btn btn-outline-light reg-button"
+                type="submit"
+                onClick={this.handleFormSubmit}
+              ><span className="reg-button">Sign Up</span></button>
+            </div>
+
+            <p className="basic-text">Already have an account? <Link to={"/login"} className="mash-link">Log in</Link></p>
+          </form>
         </div>
-          <div>
-            <button
-              type="submit"
-              onClick={this.handleFormSubmit}
-            >Sign Up</button>
-          </div>
-
-          <p>Already have an account? <Link to={"/login"}>Log in</Link></p>
-        </form>
       </div>
     )
   }
