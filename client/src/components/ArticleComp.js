@@ -40,12 +40,11 @@ class ArticleComp extends Component {
     }
   }
 
-  // refreshArticles = (refresh) => {
-  //   if (refresh === "refresh") {
-  //     API.scrapeNewArticles()
-  //     .then( this.populateArticles("all") )
-  //   }
-  // }
+  refreshArticles = (refresh) => {
+    if (refresh === "refresh") {
+      API.scrapeNewArticles()
+    }
+  }
 
   handleSourceValue = sourceValue => {
     this.setState({
@@ -83,7 +82,7 @@ class ArticleComp extends Component {
           <button type="button" className="btn btn-secondary" onClick={() => this.handleSourceValue("kotaku")}>Kotaku</button>
           <button type="button" className="btn btn-secondary" onClick={() => this.handleSourceValue("pcgamer")}>PCGamer</button>
           <button type="button" className="btn btn-secondary" onClick={() => this.handleSourceValue("polygon")}>Polygon</button>
-          {/* <button type="button" className="btn btn-secondary" onClick={() => this.refreshArticles("refresh")}>Refresh Articles</button> */}
+          <button type="button" className="btn btn-secondary" onClick={() => this.refreshArticles("refresh")}>Refresh Articles</button>
         </div>
         <div>
           {

@@ -8,7 +8,7 @@ const express = require("express")
 const app = express()
 const passport = require("passport")
 const LocalStrategy = require('passport-local').Strategy
-const PORT = 3001
+const PORT = process.env.PORT || 3001
 
 // ~~~ MIDDLEWARE
 // MORGAN, BODYPARSER, COOKIEPARSER
